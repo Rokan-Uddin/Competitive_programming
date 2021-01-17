@@ -4,40 +4,28 @@ using namespace std;
 #define endl '\n'
 #define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
 
+double getPQ(double m,double n) {
+  return sqrt((m*m)-(n*n));
+}
+
 int main()
 {
     optimize();
-    int T;
-    cin >> T;
-    for ( int tc = 1; tc <= T; tc++ ) {
-        double AB, AC, BC, R;
-
-        cin >> AB >> AC >> BC >> R;
-
-        double l = 0, r = AB;
-
-        for ( int i = 0; i < 100; i++ ) {
-            double AD = ( l + r ) / 2.0;
-            double x = AD / AB;
-
-            double AE = AC * x;
-            double DE = BC * x;
-
-            double pABC = ( AB + BC + AC ) / 2;
-            double pADE = ( AD + AE + DE ) / 2;
-
-            double areaTriABC =  sqrt ( pABC * ( pABC - AB ) * ( pABC - AC ) * ( pABC - BC ) );
-            double areaTriADE =  sqrt ( pADE * ( pADE - AD ) * ( pADE - AE ) * ( pADE - DE ) );
-
-            double areaTra = areaTriABC - areaTriADE;
-
-            if ( R < ( areaTriADE / areaTra ) ) r = AD;
-            else l = AD;
-        }
-
-        fraction();
-        cout << "Case " << tc << ": " << l << endl;
-    }
-
-    return 0;
+    int t;
+    cin >> t;
+    for(int j=1;j<=t;j++) {
+      double x,y,c;
+      cin>>x>>y>>c;
+      double l=0,r=x;
+      for(int i=0;i<100;i++) {
+        double mid=(l+r)/2;
+        double p =getPQ(x,mid);
+        double q= getPQ(y,mid);
+        double cc = 1/((1/p)+(1/q));
+        if(cc>c) l=mid;
+        else r=mid;
+      }
+      fraction();
+      cout<<"Case "<<j<<": "<<l<<endl;
+ }
 }
