@@ -7,14 +7,15 @@ using namespace std;
 int main()
 {
     optimize();
-    int n,ans=1;
+    int n;
+    string s;
+     string v;
     cin>>n;
-    vector<int>v(n);
-    for(int i=0;i<n;i++) cin>>v[i];
-    sort(v.begin(),v.end());
-    for(auto u:v) {
-      if(u>=ans) ans++;
+    cin>>s;
+    for(int i=0;i<n;i++) {
+      if(v.size() %2==0 || v.back() != s[i]) v.push_back(s[i]);
     }
-    cout<<ans-1<<endl;
+    if(v.size() %2==1) v.pop_back();
+    cout<<n-v.size()<<endl<<v<<endl;
     return 0;
 }
