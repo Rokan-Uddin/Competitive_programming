@@ -8,10 +8,17 @@ int main()
     int t;
     cin>>t;
     while(t--) {
-      string s;
-      cin>>s;
-      if(s.size()%2==0 && s[0]!=')' && s[s.size()-1]!='(')  cout<<"YES"<<endl;
-      else cout<<"NO"<<endl;
+      long long n,x,mxs=0,mns=0,val;
+      cin>>n>>x;
+      for(int i=0;i<n;i++) {
+        cin>>val;
+        mns += val;
+        mxs += (val/x);
+        if(val % x !=0) mxs++;
+      }
+      if(mns%x != 0) mns= (mns/x)+1;
+      else mns=(mns/x);
+      cout<<mns<<" "<<mxs<<endl; 
     }
     return 0;
 }
