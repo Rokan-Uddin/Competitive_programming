@@ -8,17 +8,10 @@ int main()
     int t;
     cin>>t;
     while(t--) {
-      long long n,x,mxs=0,mns=0,val;
-      cin>>n>>x;
-      for(int i=0;i<n;i++) {
-        cin>>val;
-        mns += val;
-        mxs += (val/x);
-        if(val % x !=0) mxs++;
-      }
-      if(mns%x != 0) mns= (mns/x)+1;
-      else mns=(mns/x);
-      cout<<mns<<" "<<mxs<<endl; 
+      int n;
+      cin>>n;
+      while(n--) cout<<"1 ";
+      cout<<endl;
     }
     return 0;
 }
