@@ -8,10 +8,15 @@ int main()
     int t;
     cin>>t;
     while(t--) {
-      int n;
+      long long n,val;
+      set<long long>s;
       cin>>n;
-      while(n--) cout<<"1 ";
-      cout<<endl;
+      for(int i=0;i<n;i++) {
+        cin>>val;
+        s.insert(val);
+      }
+      if(s.size()==n) cout<<"NO"<<endl;
+      else cout<<"YES"<<endl;
     }
     return 0;
 }
