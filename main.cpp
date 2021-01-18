@@ -1,21 +1,33 @@
+// In the name of ALLAH
 #include<bits/stdc++.h>
 using namespace std;
-#define endl '\n'
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef tree< long long, null_type, less_equal<long long>, rb_tree_tag,tree_order_statistics_node_update > ordered_set;
 #define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
-
+#define endl '\n'
+ 
+const int mx = 2e5+123;
+long long a[mx], sum[mx];
 int main()
 {
-    optimize();
-    int n;
-    string s;
-     string v;
-    cin>>n;
-    cin>>s;
-    for(int i=0;i<n;i++) {
-      if(v.size() %2==0 || v.back() != s[i]) v.push_back(s[i]);
+    long long n, t;
+    cin >> n >> t;
+    for ( int i = 1; i <= n; i++ ) cin >> a[i];
+    for ( int i = 1; i <= n; i++ ) sum[i] = a[i] + sum[i-1];
+    
+    map<long long, int> c;
+    ordered_set ps;
+    
+    ps.insert ( 0 );
+    c[0]++;
+    
+    long long ans = 0;
+    for ( int i = 1; i <= n; i++ ) {
+        ans += ( i - ps.order_of_key(sum[i]-t) - c[sum[i]-t] );
+        ps.insert ( sum[i] );
+        c[sum[i]]++;
     }
-    if(v.size() %2==1) v.pop_back();
-    cout<<n-v.size()<<endl<<v<<endl;
+    cout << ans << endl;
     return 0;
 }
