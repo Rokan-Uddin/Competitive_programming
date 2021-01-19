@@ -6,17 +6,17 @@ int main()
 {
     optimize();
     int t;
+    string s;
     cin>>t;
     while(t--) {
-      long long n,val;
-      set<long long>s;
-      cin>>n;
-      for(int i=0;i<n;i++) {
-        cin>>val;
-        s.insert(val);
+      cin>>s;
+      int mx=0,l=0,r=0;
+      for(int i=0;i<s.size();i++) {
+        if(s[i]=='L') l++, r=0;
+        else if(s[i]=='R') r++,l=0;
+        mx=max(l,mx);
       }
-      if(s.size()==n) cout<<"NO"<<endl;
-      else cout<<"YES"<<endl;
+      cout<<mx+1<<endl;
     }
     return 0;
 }
