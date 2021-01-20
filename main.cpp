@@ -8,6 +8,7 @@ bool is_prime[mx];
 vector<int> prime;
 void primeGen ( int n )
 {
+    n+=100;
     for ( int i = 3; i <= n; i += 2 ) is_prime[i] = 1;
  
     int sq = sqrt ( n );
@@ -32,14 +33,12 @@ int main()
     int n;
     cin>>n;
     primeGen(n);
-    map<int,int>mp;
-    for(int i=6;i<=n;i++) {
-      for(int j=0;j<prime.size();j++) if(i%prime[j]==0) mp[i]++;
+    if(n<3) cout<<1<<endl;
+    else cout<<2<<endl;
+    for(int i=2;i<=(n+1);i++) {
+      if(is_prime[i]==1) cout<<1<<" ";
+      else cout<<2<<" ";
     }
-        int ans=0;
-    for(auto u:mp) {
-      if(u.second==2) ans++;
-    }
-    cout<<ans<<endl;
+    cout<<endl;
     
 }
