@@ -5,23 +5,14 @@ using namespace std;
 #define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
  
 int main() {
-    long long t,n;
-    cin>>t;
-    while(t--) { 
-    cin>> n;
-    long long ans=0;
-    while(1) {
-      if(n==1) break; 
-      else if(n%6 ==0 ) {
-        n=n/6;
-        ans++;
-      }
-      else if(n%6==2 || n%6==4 || n%6==5) {ans =-1;break;}
-      else {
-        n=n*2; 
-        ans++;
-      }
+    long long m,n,sum=0;
+    cin>>n>>m;
+    vector<long long>v(n);
+    for(long long i=0;i<n;i++) cin>>v[i];
+    sort(v.begin(),v.end());
+    for(long long i=0;i<m;i++) { 
+    if(v[i]>0) break;
+     sum += abs(v[i]) ;
     }
-    cout<<ans<<endl;
-    }
+    cout<<sum<<endl;
 }
