@@ -1,38 +1,28 @@
-//Bismillahir rahmanir rahim
+//In the name of ALLAH
 //MD Rokan Uddin
 #include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-#define endl '\n'
-#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-int main()
-{
-    optimize();
-    ll n,k,val,ans=0;
-    vector<ll>v;
-    map<ll,ll>mp;
-    cin>>n>>k;
-    for(ll i=0;i<n;i++) {
-            cin>>val;
-            val= val%k;
-            v.push_back(val);
-            mp[val]++;
+int a, b, c, d, e, f;
+int dp[10001];
+int fn(int n) {
+    
+    if (n == 0) return a% 10000007;
+    if (n == 1) return b% 10000007;
+    if (n == 2) return c% 10000007;
+    if (n == 3) return d% 10000007;
+    if (n == 4) return e% 10000007;
+    if (n == 5) return f% 10000007;
+    if(dp[n] != -1) return dp[n]% 10000007;
+    dp[n]=fn(n-1) + fn(n-2) + fn(n-3) + fn(n-4) + fn(n-5) + fn(n-6);
+    return dp[n]% 10000007;
+}
+int main() {
+    int n, cases;
+    scanf("%d", &cases);
+    for (int caseno = 1; caseno <= cases; ++caseno) {
+         for(int i=0;i<10001;i++) dp[i]=-1;
+        scanf("%d %d %d %d %d %d %d", &a, &b, &c, &d, &e, &f, &n);
+        printf("Case %d: %d\n", caseno, fn(n));
     }
-    sort(v.begin(),v.end());
-    for(ll i=0;i<v.size();i++) {
-        ll m= (k-v[i]);
-        if(m==k) m=0;
-        if(binary_search(v.begin()+i,v.end(),m)) {
-            mp[v[i]]--;
-            ll j= lower_bound(v.begin(),v.end(),m)-v.begin();
-            if(mp[v[j]]>0 && i!=j) {
-                if((v[i]+v[j])%k==0) {
-                    mp[v[j]]--;
-                    ans++;
-                }
-            }
-            else mp[v[i]]++;
-        }
-    }
-    cout<<ans*2<<endl;
+    return 0;
 }
