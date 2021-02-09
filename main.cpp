@@ -1,4 +1,4 @@
-//https://atcoder.jp/contests/dp/tasks/dp_a
+//https://atcoder.jp/contests/dp/tasks/dp_b
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -7,7 +7,7 @@ typedef long long ll;
 #define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
 
 const int mx = 1e5+123;
-int h[mx], n;
+int h[mx], n, k;
 int dp[mx];
 
 int solve ( int i )
@@ -15,20 +15,20 @@ int solve ( int i )
     if ( i == n ) return 0;
     if ( dp[i] != -1 ) return dp[i];
 
-    int ret1 = 2e9, ret2 = 2e9;
+    int ret = 2e9;
 
-    if ( i+1 <= n ) ret1 = abs ( h[i] - h[i+1] ) + solve ( i+1 );
-    if ( i+2 <= n ) ret2 = abs ( h[i] - h[i+2] ) + solve ( i+2 );
+    for ( int j = 1; j <= k; j++ ) {
+        if ( i+j <= n ) ret = min ( ret,  abs ( h[i] - h[i+j] ) + solve ( i+j ) );
+    }
 
-    dp[i] = min ( ret1, ret2 );
-    return dp[i];
+    return dp[i] = ret;
 }
 
 
 int main()
 {
 
-    cin >> n;
+    cin >> n >> k;
     for ( int i = 1; i <= n; i++ ) cin >> h[i];
 
     memset ( dp, -1, sizeof ( dp ) );
