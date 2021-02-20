@@ -1,5 +1,5 @@
 /** In the Name of ALLAH */
-
+//https://lightoj.com/problem/curious-robin-hood
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -44,19 +44,19 @@ int dy[] = {+1, -1, 0, 0, +1, -1, +1, -1};
 inline ll gcd ( ll a, ll b ) { return __gcd (a, b); }
 inline ll lcm ( ll a, ll b ) { return ( a * ( b / gcd (a, b) ) ); }
 
-int ar[100];
-int tree[300];
+int ar[100001];
+int tree[100001*3];
 void init(int node,int b,int e) {
   if(b==e) {
     tree[node]=ar[b];
-    return ;
+    return  ;
   }
   int left= node*2;
   int right= node*2 + 1;
   int mid= (b+e)/2;
   init(left,b,mid);
   init(right,mid+1,e);
-  tree[node]= tree[left]+tree[right];
+  tree[node]= (tree[left]+tree[right]);
 }
 int query(int node,int b,int e,int i,int j) {
   if(i>e || j<b) return 0;
@@ -66,14 +66,14 @@ int query(int node,int b,int e,int i,int j) {
   int mid= (b+e)/2;
   int q1 = query(left,b,mid,i,j);
   int q2= query(right,mid+1,e,i,j);
-  return q1+q2;
+  return (q1+q2);
 }
 void update(int node, int b, int e, int i, int newvalue)
 {
     if (i > e || i < b)
         return; 
     if (b >= i && e <= i) { 
-        tree[node] = newvalue;
+         tree[node] = newvalue;
         return;
     }
     int Left = node * 2; 
@@ -86,16 +86,33 @@ void update(int node, int b, int e, int i, int newvalue)
 int main()
 {
 	optimize();
-  int n;
-  cin>>n;
+  int T;
+  cin>>T;
+  for(int tc=1;tc<=T;tc++) {
+  int n,m,l,r,u;
+  cin>>n>>m;
   for(int i=1;i<=n;i++) cin>>ar[i];
   mem(tree,-1);
   init(1,1,n);
-  int m,l,r;
-  cin>>m;
+  cout<<"Case "<<tc<<":"<<endl;
   while(m--) {
-    cin>>l>>r;
-    cout<<query(1,1,n,l,r)<<endl;
+    int type;
+    cin>>type;
+    if(type==1) {
+      cin>>u;
+      cout<<query(1,1,n,(u+1),(u+1))<<endl;
+      update(1,1,n,(u+1),0);
+    }
+    else if(type==2) {
+      cin>>l>>r;
+      r += query(1,1,n,(l+1),(l+1));
+      update(1,1,n,(l+1),r);
+    }
+    else if(type==3) {
+      cin>>l>>r;
+      cout<<query(1,1,n,(l+1),(r+1))<<endl;
+    }
+  }
   }
   return 0;
 }
