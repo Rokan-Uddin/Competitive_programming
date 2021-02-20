@@ -1,38 +1,101 @@
-//https://atcoder.jp/contests/dp/tasks/dp_b
+/** In the Name of ALLAH */
+
+
 #include<bits/stdc++.h>
 using namespace std;
+
 typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<vi> vvi;
+typedef vector<vl> vvl;
+typedef pair<int,int> pii;
+typedef pair<double, double> pdd;
+typedef pair<ll, ll> pll;
+typedef vector<pii> vii;
+typedef vector<pll> vll;
+typedef double dl;
+
+#define PB push_back
+#define F first
+#define S second
+#define MP make_pair
 #define endl '\n'
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+#define sz(x) (int)x.size()
+
+const double PI = acos(-1);
+const double eps = 1e-9;
+const int inf = 2000000000;
+const ll infLL = 9000000000000000000;
+#define MOD 1000000007
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
 #define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
+#define file() freopen("input.txt","r",stdin);freopen("output.txt","w",stdout);
 
-const int mx = 1e5+123;
-int h[mx], n, k;
-int dp[mx];
+int dx[] = {0, 0, +1, -1, +1, +1, -1, -1};
+int dy[] = {+1, -1, 0, 0, +1, -1, +1, -1};
 
-int solve ( int i )
-{
-    if ( i == n ) return 0;
-    if ( dp[i] != -1 ) return dp[i];
+inline ll gcd ( ll a, ll b ) { return __gcd (a, b); }
+inline ll lcm ( ll a, ll b ) { return ( a * ( b / gcd (a, b) ) ); }
 
-    int ret = 2e9;
-
-    for ( int j = 1; j <= k; j++ ) {
-        if ( i+j <= n ) ret = min ( ret,  abs ( h[i] - h[i+j] ) + solve ( i+j ) );
-    }
-
-    return dp[i] = ret;
+int ar[100];
+int tree[300];
+void init(int node,int b,int e) {
+  if(b==e) {
+    tree[node]=ar[b];
+    return ;
+  }
+  int left= node*2;
+  int right= node*2 + 1;
+  int mid= (b+e)/2;
+  init(left,b,mid);
+  init(right,mid+1,e);
+  tree[node]= tree[left]+tree[right];
 }
-
-
+int query(int node,int b,int e,int i,int j) {
+  if(i>e || j<b) return 0;
+  if(b>=i && e<=j) return tree[node];
+  int left= node*2;
+  int right = node*2 + 1;
+  int mid= (b+e)/2;
+  int q1 = query(left,b,mid,i,j);
+  int q2= query(right,mid+1,e,i,j);
+  return q1+q2;
+}
+void update(int node, int b, int e, int i, int newvalue)
+{
+    if (i > e || i < b)
+        return; 
+    if (b >= i && e <= i) { 
+        tree[node] = newvalue;
+        return;
+    }
+    int Left = node * 2; 
+    int Right = node * 2 + 1;
+    int mid = (b + e) / 2;
+    update(Left, b, mid, i, newvalue);
+    update(Right, mid + 1, e, i, newvalue);
+    tree[node] = tree[Left] + tree[Right];
+}
 int main()
 {
-
-    cin >> n >> k;
-    for ( int i = 1; i <= n; i++ ) cin >> h[i];
-
-    memset ( dp, -1, sizeof ( dp ) );
-    cout << solve ( 1 ) << endl;
-
-    return 0;
+	optimize();
+  int n;
+  cin>>n;
+  for(int i=1;i<=n;i++) cin>>ar[i];
+  mem(tree,-1);
+  init(1,1,n);
+  int m,l,r;
+  cin>>m;
+  while(m--) {
+    cin>>l>>r;
+    cout<<query(1,1,n,l,r)<<endl;
+  }
+  return 0;
 }
