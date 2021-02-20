@@ -1,5 +1,5 @@
 /** In the Name of ALLAH */
-//https://lightoj.com/problem/curious-robin-hood
+//https://lightoj.com/problem/array-queries
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -56,62 +56,34 @@ void init(int node,int b,int e) {
   int mid= (b+e)/2;
   init(left,b,mid);
   init(right,mid+1,e);
-  tree[node]= (tree[left]+tree[right]);
+  tree[node]= min(tree[left],tree[right]);
 }
 int query(int node,int b,int e,int i,int j) {
-  if(i>e || j<b) return 0;
+  if(i>e || j<b) return 10000000;
   if(b>=i && e<=j) return tree[node];
   int left= node*2;
   int right = node*2 + 1;
   int mid= (b+e)/2;
   int q1 = query(left,b,mid,i,j);
   int q2= query(right,mid+1,e,i,j);
-  return (q1+q2);
+  return min(q1,q2);
 }
-void update(int node, int b, int e, int i, int newvalue)
-{
-    if (i > e || i < b)
-        return; 
-    if (b >= i && e <= i) { 
-         tree[node] = newvalue;
-        return;
-    }
-    int Left = node * 2; 
-    int Right = node * 2 + 1;
-    int mid = (b + e) / 2;
-    update(Left, b, mid, i, newvalue);
-    update(Right, mid + 1, e, i, newvalue);
-    tree[node] = tree[Left] + tree[Right];
-}
+
 int main()
 {
 	optimize();
   int T;
   cin>>T;
   for(int tc=1;tc<=T;tc++) {
-  int n,m,l,r,u;
+  int n,m,l,r;
   cin>>n>>m;
   for(int i=1;i<=n;i++) cin>>ar[i];
   mem(tree,-1);
   init(1,1,n);
   cout<<"Case "<<tc<<":"<<endl;
   while(m--) {
-    int type;
-    cin>>type;
-    if(type==1) {
-      cin>>u;
-      cout<<query(1,1,n,(u+1),(u+1))<<endl;
-      update(1,1,n,(u+1),0);
-    }
-    else if(type==2) {
-      cin>>l>>r;
-      r += query(1,1,n,(l+1),(l+1));
-      update(1,1,n,(l+1),r);
-    }
-    else if(type==3) {
-      cin>>l>>r;
-      cout<<query(1,1,n,(l+1),(r+1))<<endl;
-    }
+    cin>>l>>r;
+    cout<<query(1,1,n,l,r)<<endl;
   }
   }
   return 0;
