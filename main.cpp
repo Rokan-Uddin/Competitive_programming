@@ -24,22 +24,20 @@ void primeGen ( int n )
         if ( is_prime[i] == 1 ) prime.push_back ( i );
     }
 }
-int eulerPhi ( int n ) {
-    int res = n;
-    int sqrtn = sqrt ( n );
-    for ( int i = 0; i < prime.size() && prime[i] <= sqrtn; i++ ) {
-        if ( n % prime[i] == 0 ) {
-            while ( n % prime[i] == 0 ) {
-                n /= prime[i];
+int NOD (long long n) 
+{
+    int ret = 1;
+    for ( auto p : prime ) { 
+        if ( 1LL * p * p > n ) break;
+        if ( n % p == 0 ) { 
+            int cnt = 1;
+            while ( n % p == 0 ) { 
+                n /= p; 
+                cnt++; 
             }
-            sqrtn = sqrt ( n );
-            res /= prime[i];
-            res *= prime[i] - 1;
+            ret *= cnt; 
         }
     }
-    if ( n != 1 ) {
-        res /= n;
-        res *= n - 1;
-    }
-    return res;
+    if ( n > 1 ) ret *= 2; 
+    return ret;
 }
